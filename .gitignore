@@ -1,0 +1,5 @@
+/node_modules
+/vidly/node_modules
+/vidly/config
+/.vscode
+/*/*/node_modules
