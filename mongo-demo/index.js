@@ -33,7 +33,7 @@ async function getMovies(status) {
 async function getMovies() {
     let result = await Movie
     .findById()                             
-    .sort({isReleased: 1})                           // sort by name : ASC=1, DESC=-1
+    .sort("isReleased")                           // sort by isReleased=ASC, (-isReleased=DESC)
     console.log(result);
 }
 
