@@ -1,5 +1,8 @@
 /node_modules
 /vidly/node_modules
+/mongo-demo/node_modules
 /vidly/config
 /.vscode
 /*/*/node_modules
+/config
+/mongo-demo/node_modules

@@ -6,15 +6,20 @@ const morgan = require('morgan');
 const express = require('express');
 const app = express();
 const ruid = require('express-ruid');
-const genresRouter = require('./src/routes/genres');
+const moviesRouter = require('./src/routes/movies');
 const coursesRouter = require('./src/routes/courses');
 const homeRouter = require('./src/routes/home');
 const eventsRouter = require('./src/routes/events');
+const mongodb = require("mongoose");
 
 // CONFIGURATION
 // console.log(`Application Name       : ${config.get('name')}`);
 // console.log(`Mail Server Name       : ${config.get('mail.host')}`);
 // console.log(`Mail Server Password   : ${config.get('mail.password')}`);
+
+mongodb.connect("mongodb://localhost/vidly")
+        .then(() => " ::::::::::::: Connected to MongoDB on Localhost ... ::::::::::::: ")
+        .catch(err => console.log(" :::::::::: An error occured while connecting To MongoDB on Localhost ... :::::::::: ", err))
 
 
 // TEMPLATING ENGINE
@@ -42,7 +47,7 @@ app.use(ruid());
 // app.use(logger);
 
 
-app.use('/api/genres', genresRouter);
+app.use('/api/movies', moviesRouter);
 app.use('/api/courses', coursesRouter);
 app.use('/api/events', eventsRouter);
 app.use('/', homeRouter);
@@ -51,3 +56,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}...`);
 });
+
+module.exports = mongodb;

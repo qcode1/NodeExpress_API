@@ -5,12 +5,33 @@ mongo.connect('mongodb://localhost/vidly')
     .then(() => console.log('Connected to MongoDB ... '))
     .catch(err => console.log('Could not connect to MongoDB ... ', err))
 
+// Creating a movie schema with relevent validators
 const movieSchema = new mongo.Schema({
-    name: String,
+    name: {
+        type: String, 
+        required: true,
+        minlength: 5,
+        maxlength: 200,
+        uppercase: true,
+    },
     actors: [String],
-    genre: [String],
+    genre: {
+        type: Array,
+        validate: {
+            validator: function(v) {
+                return v && v.length > 0;
+            }, 
+            message: "At least on genre should be provided"
+        }
+    },
     date: { type: Date, default: Date.now },
-    profit: Number,
+    profit: {
+        type: Number,
+        min: 100,
+        required: function() {
+            return this.isReleased;
+        }
+    },
     isReleased: Boolean
 });
 
@@ -18,8 +39,16 @@ const Movie = mongo.model('Movie', movieSchema);
 
 async function createMovie(newMovie) {
     const movie = new Movie(newMovie);
-    const newMovies = await movie.save();
-    console.log(newMovies);
+
+    try {
+        const newMovies = await movie.save();
+        console.log(newMovies);
+    } catch(err) {
+        for (field in err.errors) {
+            console.log("An error occured while saving Movie Document ::::: ", err.errors[field].message)
+        }
+    }
+
 }
 
 async function getMovies(status) {
@@ -53,8 +82,9 @@ async function getMovies() {
 // Using Comparison operators
 async function getMoviesComp(value) {
     let movies = await Movie
-                            .find({profit: {$gte: value}})
-                            .sort({name: 1})
+                            // .find({profit: {$gte: value}})
+                            .find({name: "THE KING'S MAN"}).count();
+                            // .sort({name: 1})
     console.log(" ::::::::::::  Using Comparision Operators :::::::::::: ")
     console.log(movies)
     console.log(" ::::::::::::  :::::::::::: :::::::::::::: :::::::::::: ")
@@ -124,16 +154,16 @@ async function deleteMovie() {
     console.log(reult);
 }
 
-createMovie({
-    name: "Venom : Let There Be Carnage",
-    actors: ["Tom Hardy", "Stephen Graham Bateman", "J.K. Simmons"],
-    genre: ["Sci-Fi", "Action"],
-    profit: 12800000,
-    isReleased: true
-});
+// createMovie({
+//     name: "The Batman",
+//     actors: ["Robert Pattinson", "Vanessa Kirby", "Jeffrey Wright", "Jonah Hill", "Peter Sarsgaard"],
+//     genre: ["Drama", "Action","Crime","Mystery","Fantasy","Thriller"],
+//     isReleased: true,
+//     profit: 40500000
+// });
 
 // getMovies();
-// getMoviesComp(15000000.00);
+getMoviesComp(1);
 // getMoviesLogic();
 // getMoviesReg();
 // getMoviesCount();
