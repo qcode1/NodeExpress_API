@@ -1,5 +1,5 @@
 const moviesRouter = require('express').Router();
-const { createMovie, getMovies, getOneMovie, Movie } = require("../model/movie")
+const { Movie } = require("../models/movie")
 const { validator } = require('../lib/middleware');
 const joi = require('joi');
 var _ = require('lodash');

@@ -43,24 +43,24 @@ const movieSchema = new mongodb.Schema({
 
 const Movie = new mongodb.model('Movie', movieSchema);
 
-async function createMovie(body) {
-    let movie = new Movie(body);
-    const result = await movie.save();
-    console.log(" :::::::::: Storing new movie to DB ... ::::::::::")
-    return result;
-}
+// async function createMovie(body) {
+//     let movie = new Movie(body);
+//     const result = await movie.save();
+//     console.log(" :::::::::: Storing new movie to DB ... ::::::::::")
+//     return result;
+// }
 
-async function getMovies() {
-    console.log(" :::::::::: Retrieving movies from DB ... ::::::::::")
-    let movies = Movie.find().sort('name');
-    return movies
-}
+// async function getMovies() {
+//     console.log(" :::::::::: Retrieving movies from DB ... ::::::::::")
+//     let movies = Movie.find().sort('name');
+//     return movies
+// }
 
-async function getOneMovie(id) {
-    console.log(" :::::::::: Retrieving movies from DB ... ::::::::::")
-    let movie = Movie.find({_id: id});
-    return movie;
-}
+// async function getOneMovie(id) {
+//     console.log(" :::::::::: Retrieving movies from DB ... ::::::::::")
+//     let movie = Movie.find({_id: id});
+//     return movie;
+// }
 
 
-module.exports = {createMovie, getMovies, getOneMovie, Movie}
+module.exports = {Movie}

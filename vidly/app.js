@@ -11,6 +11,7 @@ const coursesRouter = require('./src/routes/courses');
 const homeRouter = require('./src/routes/home');
 const eventsRouter = require('./src/routes/events');
 const mongodb = require("mongoose");
+const customersRouter = require('./src/routes/customers');
 
 // CONFIGURATION
 // console.log(`Application Name       : ${config.get('name')}`);
@@ -48,6 +49,7 @@ app.use(ruid());
 
 
 app.use('/api/movies', moviesRouter);
+app.use('/api/customers', customersRouter);
 app.use('/api/courses', coursesRouter);
 app.use('/api/events', eventsRouter);
 app.use('/', homeRouter);

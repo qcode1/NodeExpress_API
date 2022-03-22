@@ -81,7 +81,7 @@ async function getMovies() {
 
 // Using Comparison operators
 async function getMoviesComp(value) {
-    let movies = await Movie
+    let movies = await Movie.findByIdAndDelete
                             // .find({profit: {$gte: value}})
                             .find({name: "THE KING'S MAN"}).count();
                             // .sort({name: 1})
